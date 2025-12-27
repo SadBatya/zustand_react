@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create, type StateCreator } from "zustand";
 
 export type TodoType = {
   title: string;
@@ -15,19 +15,28 @@ export type TodosState = {
   todos: TodoType[];
 };
 
-export const useTodosStore = create<TodosState & TodosActions>((set, get) => ({
+export const todoSlice: StateCreator<TodosState & TodosActions> = (
+  set,
+  get
+) => ({
   todos: [],
   addTodo: (title: string) => {
     set({ todos: [...get().todos, { title, isCompleted: false }] });
   },
   toggleTodo: (index: number) => {
+    const { todos } = get();
+
     set({
-      todos: get().todos.map((todo, i) =>
-        i === index ? { ...todo, isCompleted: !todo.isCompleted } : todo
-      ),
+      todos: [
+        ...todos.slice(0, index),
+        { ...todos[index], isCompleted: !todos[index].isCompleted },
+        ...todos.slice(index + 1),
+      ],
     });
   },
   deleteTodo: (index: number) => {
     set({ todos: get().todos.filter((_, i) => i !== index) });
   },
-}));
+});
+
+export const useTodosStore = create<TodosState & TodosActions>(todoSlice);
