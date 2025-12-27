@@ -24,6 +24,12 @@ function App() {
         style={{ width: 300 }}
         onChange={(e) => setTitle(e.target.value)}
         value={title}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            addTodo(title);
+            setTitle("");
+          }
+        }}
       />
       <Button onClick={() => addTodo(title)}>Добавить задачу</Button>
       <Button disabled={currentIndex === null} onClick={handleDeleteTodo}>
