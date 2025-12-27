@@ -1,16 +1,44 @@
 import "./App.css";
-import { addTen } from "./helpers/addTen";
-import { useCounterStore } from "./model/countStore";
+
+import { Card, Checkbox, Input, Button } from "antd";
+import { useTodosStore } from "./model/todoStore";
+import { useState } from "react";
+import clsx from "clsx";
 
 function App() {
-  const { counter, increment, decrement } = useCounterStore();
+  const [title, setTitle] = useState("");
+  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+
+  const { todos, addTodo, toggleTodo, deleteTodo } = useTodosStore();
+
+  const handleDeleteTodo = () => {
+    if (!currentIndex) return;
+
+    deleteTodo(currentIndex);
+    setCurrentIndex(null);
+  };
 
   return (
     <div className="wrapper">
-      <button onClick={increment}>+</button>
-      {counter}
-      <button onClick={decrement}>-</button>
-      <button onClick={addTen}>Add 10</button>
+      <Input
+        style={{ width: 300 }}
+        onChange={(e) => setTitle(e.target.value)}
+        value={title}
+      />
+      <Button onClick={() => addTodo(title)}>Добавить задачу</Button>
+      <Button disabled={currentIndex === null} onClick={handleDeleteTodo}>
+        Удалить задачу
+      </Button>
+      {todos.map(({ isCompleted, title }, index) => (
+        <Card
+          className={clsx("card", currentIndex === index && "card_active")}
+          onClick={() => setCurrentIndex(index)}
+          key={index}
+        >
+          <Checkbox checked={isCompleted} onChange={() => toggleTodo(index)} />
+          <span>{title}</span>
+        </Card>
+      ))}
     </div>
   );
 }

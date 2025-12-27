@@ -5,3 +5,25 @@
   justify-content: center;
   gap: 16px;
 }
+
+.card div {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card_active {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
