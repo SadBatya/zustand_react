@@ -38,3 +38,17 @@
 .card:hover {
   transform: scale(1.05);
 }
+
+.section_coffee {
+  width: 100%;
+  height: 100vh;
+}
+
+.cards_container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 24px;
+}
