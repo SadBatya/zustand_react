@@ -5,7 +5,16 @@ import { useCoffeeStore } from "../model/cofeeStore";
 import { useEffect, useState } from "react";
 
 export const SectionCoffee = () => {
-  const { getCoffeeList, coffeeList } = useCoffeeStore();
+  const {
+    getCoffeeList,
+    coffeeList,
+    addCoffeeToCart,
+    clearCart,
+    orderCoffee,
+    address,
+    setAddress,
+    cart,
+  } = useCoffeeStore();
   const [search, setSearch] = useState<string | undefined>();
 
   const handleSearch = (text: string) => {
@@ -27,12 +36,27 @@ export const SectionCoffee = () => {
       <div className="cards_container">
         {coffeeList &&
           coffeeList.map(
-            ({ name, type, subtitle, rating, image, price }, index) => (
+            ({ id, name, subtitle, type, rating, image, price }, index) => (
               <Card
                 key={index}
                 cover={<img src={image} alt={name} />}
                 actions={[
-                  <Button icon={<ShoppingCartOutlined />}>{price}</Button>,
+                  <Button
+                    icon={<ShoppingCartOutlined />}
+                    onClick={() =>
+                      addCoffeeToCart({
+                        id,
+                        name,
+                        type: "L",
+                        subtitle,
+                        rating,
+                        image,
+                        price,
+                      })
+                    }
+                  >
+                    {price}
+                  </Button>,
                 ]}
               >
                 <Card.Meta title={name} description={subtitle} />
@@ -48,6 +72,27 @@ export const SectionCoffee = () => {
               </Card>
             )
           )}
+      </div>
+      <div className="cart">
+        <h1>Заказ</h1>
+        {cart && cart.length > 0 ? (
+          <>
+            {cart.map(({ name }, index) => (
+              <span key={index}>{name}</span>
+            ))}
+            <Input
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Адрес доставки"
+            />
+            <Button onClick={orderCoffee} type="primary">
+              Сделать заказ
+            </Button>
+            <Button onClick={clearCart}>Очистить корзину</Button>
+          </>
+        ) : (
+          <span>Добавьте напитки</span>
+        )}
       </div>
     </div>
   );
