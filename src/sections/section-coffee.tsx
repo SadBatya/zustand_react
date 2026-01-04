@@ -1,10 +1,13 @@
 import { Button, Card, Rate, Tag, Input } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import { useSearchStore } from "../model/searchStore";
 
 import { useCoffeeStore } from "../model/cofeeStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export const SectionCoffee = () => {
+  const { setText, text } = useSearchStore();
+
   const {
     getCoffeeList,
     coffeeList,
@@ -15,12 +18,6 @@ export const SectionCoffee = () => {
     setAddress,
     cart,
   } = useCoffeeStore();
-  const [search, setSearch] = useState<string | undefined>();
-
-  const handleSearch = (text: string) => {
-    getCoffeeList({ text });
-    setSearch(text);
-  };
 
   useEffect(() => {
     getCoffeeList();
@@ -30,8 +27,8 @@ export const SectionCoffee = () => {
     <div className="section_coffee">
       <Input
         placeholder="Поиск"
-        value={search}
-        onChange={(e) => handleSearch(e.target.value)}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
       />
       <div className="cards_container">
         {coffeeList &&
