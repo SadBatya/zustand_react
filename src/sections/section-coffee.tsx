@@ -1,27 +1,13 @@
-import { Button, Card, Rate, Tag, Input } from "antd";
-import { ShoppingCartOutlined } from "@ant-design/icons";
-import { useSearchStore } from "../model/searchStore";
+import { Input } from "antd";
 
 import { useCoffeeStore } from "../model/cofeeStore";
 import { useEffect } from "react";
 import { useUrlStorage } from "../helpers/useUrlStorage";
 import { CoffeeCard } from "../components/CoffeeCard";
+import { Cart } from "../components/Cart";
 
 export const SectionCoffee = () => {
-  const { setText, text } = useSearchStore();
-
-  const {
-    getCoffeeList,
-    coffeeList,
-    addCoffeeToCart,
-    clearCart,
-    orderCoffee,
-    address,
-    setAddress,
-    cart,
-    params,
-    setParams,
-  } = useCoffeeStore();
+  const { getCoffeeList, coffeeList, params, setParams } = useCoffeeStore();
   useUrlStorage(params, setParams);
 
   useEffect(() => {
@@ -41,27 +27,7 @@ export const SectionCoffee = () => {
             <CoffeeCard coffee={coffee} key={index} />
           ))}
       </div>
-      <div className="cart">
-        <h1>Заказ</h1>
-        {cart && cart.length > 0 ? (
-          <>
-            {cart.map(({ name }, index) => (
-              <span key={index}>{name}</span>
-            ))}
-            <Input
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Адрес доставки"
-            />
-            <Button onClick={orderCoffee} type="primary">
-              Сделать заказ
-            </Button>
-            <Button onClick={clearCart}>Очистить корзину</Button>
-          </>
-        ) : (
-          <span>Добавьте напитки</span>
-        )}
-      </div>
+      <Cart />
     </div>
   );
 };
