@@ -4,6 +4,8 @@ import { useSearchStore } from "../model/searchStore";
 
 import { useCoffeeStore } from "../model/cofeeStore";
 import { useEffect } from "react";
+import { useUrlStorage } from "../helpers/useUrlStorage";
+import { CoffeeCard } from "../components/CoffeeCard";
 
 export const SectionCoffee = () => {
   const { setText, text } = useSearchStore();
@@ -17,58 +19,27 @@ export const SectionCoffee = () => {
     address,
     setAddress,
     cart,
+    params,
+    setParams,
   } = useCoffeeStore();
+  useUrlStorage(params, setParams);
 
   useEffect(() => {
-    getCoffeeList();
+    getCoffeeList(params);
   }, []);
 
   return (
     <div className="section_coffee">
       <Input
         placeholder="Поиск"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
+        value={params.text}
+        onChange={(e) => setParams({ text: e.target.value })}
       />
       <div className="cards_container">
         {coffeeList &&
-          coffeeList.map(
-            ({ id, name, subtitle, type, rating, image, price }, index) => (
-              <Card
-                key={index}
-                cover={<img src={image} alt={name} />}
-                actions={[
-                  <Button
-                    icon={<ShoppingCartOutlined />}
-                    onClick={() =>
-                      addCoffeeToCart({
-                        id,
-                        name,
-                        type: "L",
-                        subtitle,
-                        rating,
-                        image,
-                        price,
-                      })
-                    }
-                  >
-                    {price}
-                  </Button>,
-                ]}
-              >
-                <Card.Meta title={name} description={subtitle} />
-                <Tag color="purple" style={{ marginTop: 12 }}>
-                  {type}
-                </Tag>
-                <Rate
-                  defaultValue={rating}
-                  disabled
-                  allowHalf
-                  style={{ marginTop: 12 }}
-                />
-              </Card>
-            )
-          )}
+          coffeeList.map((coffee, index) => (
+            <CoffeeCard coffee={coffee} key={index} />
+          ))}
       </div>
       <div className="cart">
         <h1>Заказ</h1>
