@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useUrlStorage } from "../helpers/useUrlStorage";
 import { CoffeeCard } from "../components/CoffeeCard";
 import { Cart } from "../components/Cart";
+import { Category } from "../components/Category";
 
 export const SectionCoffee = () => {
   const { getCoffeeList, coffeeList, params, setParams } = useCoffeeStore();
@@ -16,6 +17,7 @@ export const SectionCoffee = () => {
 
   return (
     <div className="section_coffee">
+      <Category />
       <Input
         placeholder="Поиск"
         value={params.text}

@@ -1,3 +1,10 @@
+export const CoffeeCategory = {
+  capuccino: "capuccino",
+  latte: "latte",
+  macchiato: "macchiato",
+  americano: "americano",
+} as const;
+
 export type CoffeeType = {
   id: number;
   name: string;
@@ -10,6 +17,7 @@ export type CoffeeType = {
 
 export type getCoffeeListRequestParams = {
   text?: string;
+  type?: (typeof CoffeeCategory)[keyof typeof CoffeeCategory];
 };
 
 export type OrderItem = {

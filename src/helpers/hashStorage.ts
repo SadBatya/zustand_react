@@ -1,9 +1,4 @@
-import { create } from "zustand";
-import {
-  persist,
-  type StateStorage,
-  createJSONStorage,
-} from "zustand/middleware";
+import { type StateStorage } from "zustand/middleware";
 
 export const hashStorage: StateStorage = {
   getItem: (key): string => {
