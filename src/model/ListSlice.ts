@@ -35,14 +35,8 @@ export const listSlice: StateCreator<
     set({ controller: newController });
     const { signal } = newController;
 
-    try {
-      const { data } = await axios.get(BASE_URL, { params, signal });
-      set({ coffeeList: data });
-    } catch (error) {
-      if (axios.isCancel(error)) {
-        return;
-      }
-      console.log(error);
-    }
+    const { data } = await axios.get(BASE_URL, { params, signal });
+    set({ coffeeList: data });
+    return data;
   },
 });

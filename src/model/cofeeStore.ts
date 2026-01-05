@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { getCoffeeListRequestParams } from "./coffeeTypes";
+import type { CoffeeType, getCoffeeListRequestParams } from "./coffeeTypes";
 import { devtools, persist } from "zustand/middleware";
 import type {
   CartActions,
@@ -24,3 +24,6 @@ export const useCoffeeStore = create<
 
 export const getCoffeeList = (params?: getCoffeeListRequestParams) =>
   useCoffeeStore.getState().getCoffeeList(params);
+
+export const setData = (data?: CoffeeType[]) =>
+  useCoffeeStore.setState({ coffeeList: data });

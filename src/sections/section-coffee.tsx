@@ -6,6 +6,7 @@ import { useUrlStorage } from "../helpers/useUrlStorage";
 import { CoffeeCard } from "../components/CoffeeCard";
 import { Cart } from "../components/Cart";
 import { Category } from "../components/Category";
+import { useCustomQuery } from "../helpers/useCustomQuery";
 
 export const SectionCoffee = () => {
   const { getCoffeeList, coffeeList, params, setParams } = useCoffeeStore();
@@ -14,6 +15,8 @@ export const SectionCoffee = () => {
   useEffect(() => {
     getCoffeeList(params);
   }, []);
+
+  useCustomQuery(params);
 
   return (
     <div className="section_coffee">
