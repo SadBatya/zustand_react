@@ -1,10 +1,9 @@
 import "./App.css";
-import { SectionCounter, SectionCoffee } from "./sections";
+import { SectionCoffee } from "./sections";
 
 function App() {
   return (
     <div className="wrapper">
-      <SectionCounter />
       <SectionCoffee />
     </div>
   );

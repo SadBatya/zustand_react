@@ -1,73 +1,132 @@
-# React + TypeScript + Vite
+# Zustand React Приложение
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Современное React приложение для управления каталогом кофе, построенное на TypeScript, Vite и Zustand для управления состоянием.
 
-Currently, two official plugins are available:
+## 🚀 Технологии
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** - библиотека для создания пользовательских интерфейсов
+- **TypeScript** - типизированный JavaScript
+- **Vite** - быстрый сборщик и dev-сервер
+- **Zustand** - легковесная библиотека для управления состоянием
+- **React Query (TanStack Query)** - мощная библиотека для работы с серверным состоянием
+- **Ant Design** - UI библиотека компонентов
+- **React Router DOM** - маршрутизация в React приложении
+- **Immer** - для иммутабельных обновлений состояния
+- **Axios** - HTTP клиент для работы с API
 
-## React Compiler
+## 📦 Установка
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Клонируйте репозиторий:
+```bash
+git clone <repository-url>
+cd zustand_react
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Установите зависимости:
+```bash
+npm install
 ```
+
+## 🛠️ Разработка
+
+Запустите dev-сервер:
+```bash
+npm run dev
+```
+
+Приложение будет доступно по адресу `http://localhost:5173`
+
+## 📜 Доступные команды
+
+- `npm run dev` - запуск dev-сервера с hot-reload
+- `npm run build` - сборка production версии
+- `npm run preview` - предпросмотр production сборки
+- `npm run lint` - проверка кода линтером
+
+## 📁 Структура проекта
+
+```
+src/
+├── components/          # React компоненты
+│   ├── Cart.tsx        # Компонент корзины
+│   ├── Category.tsx    # Компонент категорий кофе
+│   └── CoffeeCard.tsx  # Карточка товара
+├── helpers/            # Вспомогательные функции и хуки
+│   ├── addTen.ts
+│   ├── create.ts
+│   ├── hashStorage.ts
+│   ├── useCustomQuery.ts
+│   └── useUrlStorage.ts
+├── model/              # Zustand stores и типы
+│   ├── apiUrl.ts       # URL API
+│   ├── cartSlice.ts    # Store для корзины
+│   ├── cofeeStore.ts   # Главный store для кофе
+│   ├── coffeeTypes.ts  # TypeScript типы для кофе
+│   ├── countStore.ts
+│   ├── ListSlice.ts    # Store для списка кофе
+│   └── storesType.ts   # Типы для stores
+└── sections/           # Секции приложения
+    └── section-coffee.tsx    # Секция каталога кофе
+```
+
+## 🎯 Функциональность
+
+### Каталог кофе
+- Просмотр списка кофе с фильтрацией по категориям
+- Поиск по названию
+- Добавление товаров в корзину
+- Отображение рейтинга и цены
+- Синхронизация параметров фильтрации с URL
+
+### Корзина
+- Добавление товаров в корзину
+- Управление количеством товаров
+- Оформление заказа с указанием адреса
+- Сохранение состояния корзины в localStorage
+
+## 🏪 Zustand Stores
+
+### `useCoffeeStore`
+Главный store для работы с кофе, объединяет:
+- **ListSlice** - управление списком кофе и параметрами фильтрации
+- **CartSlice** - управление корзиной и заказами
+
+Особенности:
+- Использует `persist` middleware для сохранения корзины в localStorage
+- Использует `immer` middleware для удобной работы с иммутабельным состоянием
+- Подключен к Redux DevTools для отладки
+
+## 🔧 Настройка API
+
+Настройте базовый URL API в файле `src/model/apiUrl.ts`:
+
+```typescript
+export const BASE_URL = "your-api-url/";
+```
+
+## 🎨 Стилизация
+
+Стили приложения находятся в:
+- `src/App.css` - стили приложения
+- `src/index.css` - глобальные стили
+
+## 📝 Особенности реализации
+
+- **URL Storage** - параметры фильтрации синхронизируются с URL через хук `useUrlStorage`
+- **React Query** - используется для кэширования и управления серверными запросами
+- **AbortController** - отмена предыдущих запросов при новом поиске
+- **TypeScript** - полная типизация всех компонентов и stores
+- **Immer** - упрощение работы с вложенными объектами состояния
+
+## 🚀 Production сборка
+
+Для создания production сборки:
+```bash
+npm run build
+```
+
+Собранные файлы будут находиться в папке `dist/`
+
+## 📄 Лицензия
+
+Этот проект создан в образовательных целях.
