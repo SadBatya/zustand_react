@@ -5,7 +5,7 @@ import { useCoffeeStore } from "../model/cofeeStore";
 
 export const CoffeeCard = ({ coffee }: { coffee: CoffeeType }) => {
   const { addCoffeeToCart } = useCoffeeStore();
-  const { image, id, name, subtitle, rating, price, type } = coffee;
+  const { image, id, name, subTitle, rating, price, type } = coffee;
   
   return (
     <Card
@@ -18,7 +18,7 @@ export const CoffeeCard = ({ coffee }: { coffee: CoffeeType }) => {
               id,
               name,
               type: "L",
-              subtitle,
+              subTitle,
               rating,
               image,
               price,
@@ -29,7 +29,7 @@ export const CoffeeCard = ({ coffee }: { coffee: CoffeeType }) => {
         </Button>,
       ]}
     >
-      <Card.Meta title={name} description={subtitle} />
+      <Card.Meta title={name} description={subTitle} />
       <Tag color="purple" style={{ marginTop: 12 }}>
         {type}
       </Tag>

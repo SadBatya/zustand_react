@@ -9,6 +9,7 @@ import axios from "axios";
 
 import type { OrderItem, OrderCoffeeRes } from "./coffeeTypes";
 import { BASE_URL } from "./apiUrl";
+import { produce } from "immer";
 
 export const cartSlice: StateCreator<
   CartActions & CartState & ListActions & ListState,
@@ -19,19 +20,29 @@ export const cartSlice: StateCreator<
   cart: undefined,
   address: undefined,
   addCoffeeToCart: (item) => {
-    const { cart } = get();
-    const { id, name, subtitle } = item;
+    const { id, name, subTitle } = item;
     const prepearedItem: OrderItem = {
       id,
-      name: `${name} ${subtitle}`,
+      name: `${name} ${subTitle}`,
       size: "L",
       quantity: 1,
     };
 
     set(
-      { cart: cart ? [...cart, prepearedItem] : [prepearedItem] },
-      false,
-      "Добавить кофе в корзину"
+      produce<CartState>((draft) => {
+        if (!draft.cart) {
+          draft.cart = [];
+        }
+        const itemIndex = draft.cart.findIndex(
+          (item) => item.id === prepearedItem.id
+        );
+        if (itemIndex !== -1) {
+          draft.cart[itemIndex].quantity += 1;
+          return;
+        }
+
+        draft.cart.push(prepearedItem);
+      })
     );
   },
   orderCoffee: async () => {

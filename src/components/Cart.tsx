@@ -10,8 +10,10 @@ export const Cart = () => {
       <h1>Заказ</h1>
       {cart && cart.length > 0 ? (
         <>
-          {cart.map(({ name }, index) => (
-            <span key={index}>{name}</span>
+          {cart.map(({ name, quantity }, index) => (
+            <span key={index}>
+              {name} : {quantity}
+            </span>
           ))}
           <Input
             value={address}

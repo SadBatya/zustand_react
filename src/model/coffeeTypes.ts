@@ -8,7 +8,7 @@ export const CoffeeCategory = {
 export type CoffeeType = {
   id: number;
   name: string;
-  subtitle: string;
+  subTitle: string;
   type: string;
   price: string;
   image: string;

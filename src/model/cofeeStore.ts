@@ -1,12 +1,14 @@
 import { create } from "zustand";
 import type { CoffeeType, getCoffeeListRequestParams } from "./coffeeTypes";
 import { devtools, persist } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
 import type {
   CartActions,
   CartState,
   ListActions,
   ListState,
 } from "./storesType";
+
 import { listSlice } from "./ListSlice";
 import { cartSlice } from "./cartSlice";
 
@@ -14,10 +16,13 @@ export const useCoffeeStore = create<
   CartActions & CartState & ListActions & ListState
 >()(
   devtools(
-    persist((...args) => ({ ...listSlice(...args), ...cartSlice(...args) }), {
-      name: "coffeeStore",
-      partialize: (state) => ({ cart: state.cart, address: state.address }),
-    }),
+    persist(
+      immer((...args) => ({ ...listSlice(...args), ...cartSlice(...args) })),
+      {
+        name: "coffeeStore",
+        partialize: (state) => ({ cart: state.cart, address: state.address }),
+      }
+    ),
     { name: "coffeeStore" }
   )
 );
